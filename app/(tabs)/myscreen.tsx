@@ -23,6 +23,7 @@ export default function MyScreen() {
     setMyMemo([...myMemo, newMemo]);
     // text 데이터 초기화
     setText("");
+    console.log("## myMemo:", myMemo);
   };
   return (
     <ScrollView
@@ -39,6 +40,14 @@ export default function MyScreen() {
         onChangeText={setText}
       />
       <Button title="눌러보세요" onPress={handleAddMemo} />
+
+      <View style={{ padding: 20 }}>
+        {myMemo.map((item) => (
+          <Text key={item.id} style={{ fontSize: 16, marginBottom: 8 }}>
+            {item.id}. {item.content}
+          </Text>
+        ))}
+      </View>
     </ScrollView>
   );
 }
