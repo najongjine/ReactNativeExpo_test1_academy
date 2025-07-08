@@ -4,8 +4,13 @@ import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { useState } from "react";
 
+interface MyMemoType {
+  id: number;
+  content: string;
+}
 export default function MyScreen() {
   const [text, setText] = useState("");
+  const [myMemo, setMyMemo] = useState<MyMemoType[]>([]);
   return (
     <ScrollView
       style={styles.container}
