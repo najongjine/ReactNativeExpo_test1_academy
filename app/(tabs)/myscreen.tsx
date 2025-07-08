@@ -1,14 +1,16 @@
-import { StyleSheet, TextInput } from "react-native";
+import { ScrollView, StyleSheet, TextInput } from "react-native";
 
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
 import { useState } from "react";
 
 export default function MyScreen() {
   const [text, setText] = useState("");
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
       <Text style={styles.title}>My Page</Text>
       <TextInput
         style={styles.textArea}
@@ -27,6 +29,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  contentContainer: {
+    padding: 20,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
   },
   title: {
     fontSize: 20,
