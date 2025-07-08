@@ -42,11 +42,15 @@ export default function MyScreen() {
       <Button title="눌러보세요" onPress={handleAddMemo} />
 
       <View style={{ padding: 20 }}>
-        {myMemo.map((item) => (
-          <Text key={item.id} style={{ fontSize: 16, marginBottom: 8 }}>
-            {item.id}. {item.content}
-          </Text>
-        ))}
+        {myMemo?.length > 0 && (
+          <View style={{ padding: 20 }}>
+            {myMemo.map((item) => (
+              <Text key={item.id} style={{ fontSize: 16, marginBottom: 8 }}>
+                {item.id}. {item.content}
+              </Text>
+            ))}
+          </View>
+        )}
       </View>
     </ScrollView>
   );
