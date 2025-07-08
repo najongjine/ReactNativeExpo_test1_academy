@@ -27,8 +27,6 @@ export default function MyScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
   contentContainer: {
     padding: 20,
