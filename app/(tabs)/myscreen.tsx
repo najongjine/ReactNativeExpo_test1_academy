@@ -35,7 +35,9 @@ export default function MyScreen() {
     setSelectedMemo(memo); // 수정할 대상 선택
     setModalVisible(true); // 모달 열기
   };
-  const handleDeleteMemo = (id: number) => {};
+  const handleDeleteMemo = (id: number) => {
+    if (id) setMyMemo((prev) => prev.filter((item) => item.id !== id));
+  };
 
   const handleMemoChange = (text: string) => {
     if (selectedMemo) {
@@ -51,6 +53,7 @@ export default function MyScreen() {
     console.log("## updated: ", updated);
     //@ts-ignore
     setMyMemo(updated!); // ✅ 상태 업데이트
+    setModalVisible(false);
   };
   return (
     <ScrollView
