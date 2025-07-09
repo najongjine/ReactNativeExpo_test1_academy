@@ -4,6 +4,7 @@ import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { useState } from "react";
 import CustomModal from "@/components/CustomModal";
+import CustomButton from "@/components/CustomButton";
 
 interface MyMemoType {
   id: number;
@@ -69,7 +70,14 @@ export default function MyScreen() {
         value={text}
         onChangeText={setText}
       />
-      <Button title="새로작성" onPress={handleAddMemo} />
+      <CustomButton
+        title="새로작성"
+        onPress={handleAddMemo}
+        buttonColor="#4CAF50" // 원하는 색상 (예: 초록색)
+        textColor="#fff" // 글자색 (흰색)
+        size="medium" // 버튼 크기 ('small', 'medium', 'large' 중 선택)
+        align="left" // 위치 ('left', 'center', 'right')
+      />
 
       <View style={{ padding: 20 }}>
         {myMemo.length > 0 && (
