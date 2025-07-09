@@ -13,6 +13,7 @@ export default function MyScreen() {
   const [text, setText] = useState("");
   const [myMemo, setMyMemo] = useState<MyMemoType[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedMemo, setSelectedMemo] = useState<MyMemoType | null>(null);
 
   const handleAddMemo = () => {
     if (!text?.trim()) return;
@@ -26,10 +27,11 @@ export default function MyScreen() {
     // text 데이터 초기화
     setText("");
   };
-  const handleUpdateMemo = () => {
-    setModalVisible(true);
+  const handleUpdateMemo = (memo: MyMemoType) => {
+    setSelectedMemo(memo); // 수정할 대상 선택
+    setModalVisible(true); // 모달 열기
   };
-  const handleDeleteMemo = () => {};
+  const handleDeleteMemo = (id: number) => {};
   return (
     <ScrollView
       style={styles.container}
@@ -47,26 +49,34 @@ export default function MyScreen() {
       <Button title="눌러보세요" onPress={handleAddMemo} />
 
       <View style={{ padding: 20 }}>
-        {myMemo?.length > 0 && (
+        {myMemo.length > 0 && (
           <View style={{ padding: 20 }}>
-            {myMemo.map((item) => (
-              <Text key={item.id} style={{ fontSize: 16, marginBottom: 8 }}>
-                {item.id}. {item.content}
-              </Text>
+            {myMemo.map((memo) => (
+              <View key={memo.id} style={{ marginBottom: 12 }}>
+                <Text style={{ fontSize: 16, marginBottom: 4 }}>
+                  {memo.id}. {memo.content}
+                </Text>
+
+                <View style={{ flexDirection: "row", gap: 10 }}>
+                  <Button title="수정" onPress={() => handleUpdateMemo(memo)} />
+                  <Button
+                    title="삭제"
+                    onPress={() => handleDeleteMemo(memo.id)}
+                  />
+                </View>
+              </View>
             ))}
           </View>
         )}
-        <Button title="수정" onPress={handleUpdateMemo} />
-        <Button title="삭제" onPress={handleDeleteMemo} />
       </View>
 
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Button title="모달 열기" onPress={() => setModalVisible(true)} />
         <CustomModal
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
-          text={text}
-          setText={setText}
+          memo={selectedMemo}
+          onChangeText={() => {}}
+          onSave={() => {}}
         />
       </View>
     </ScrollView>

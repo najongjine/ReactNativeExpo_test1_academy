@@ -1,45 +1,44 @@
 import React from "react";
-import {
-  Modal,
-  View,
-  TextInput,
-  Button,
-  StyleSheet,
-  ModalProps,
-} from "react-native";
+import { Modal, View, TextInput, Button, StyleSheet } from "react-native";
 
-interface CustomModalProps extends ModalProps {
+interface MyMemoType {
+  id: number;
+  content: string;
+}
+
+interface CustomModalProps {
   visible: boolean;
   onClose: () => void;
-  text: string;
-  setText: (text: string) => void;
+  memo: MyMemoType | null;
+  onChangeText: (text: string) => void;
+  onSave: () => void;
 }
 
 export default function CustomModal({
   visible,
   onClose,
-  text,
-  setText,
-  ...modalProps
+  memo,
+  onChangeText,
+  onSave,
 }: CustomModalProps) {
   return (
     <Modal
       visible={visible}
-      transparent={true}
+      transparent
       animationType="slide"
       onRequestClose={onClose}
-      {...modalProps}
     >
       <View style={styles.modalBackground}>
         <View style={styles.modalBox}>
           <TextInput
             style={styles.textArea}
-            multiline={true}
+            multiline
             numberOfLines={10}
             placeholder="메모를 입력하세요"
-            value={text}
-            onChangeText={setText}
+            value={memo?.content || ""}
+            onChangeText={onChangeText}
           />
+          <Button title="저장" onPress={onSave} />
           <Button title="닫기" onPress={onClose} />
         </View>
       </View>
