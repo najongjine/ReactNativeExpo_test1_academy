@@ -3,6 +3,7 @@ import { Button, Modal, ScrollView, StyleSheet, TextInput } from "react-native";
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { useState } from "react";
+import CustomModal from "@/components/CustomModal";
 
 interface MyMemoType {
   id: number;
@@ -59,26 +60,15 @@ export default function MyScreen() {
         <Button title="삭제" onPress={handleDeleteMemo} />
       </View>
 
-      <Modal
-        visible={modalVisible}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setModalVisible(false)} // Android 뒤로가기 대응
-      >
-        <View style={styles.modalBackground}>
-          <View style={styles.modalBox}>
-            <TextInput
-              style={styles.textArea}
-              multiline={true}
-              numberOfLines={10}
-              placeholder="메모를 입력하세요"
-              value={text}
-              onChangeText={setText}
-            />
-            <Button title="닫기" onPress={() => setModalVisible(false)} />
-          </View>
-        </View>
-      </Modal>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Button title="모달 열기" onPress={() => setModalVisible(true)} />
+        <CustomModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          text={text}
+          setText={setText}
+        />
+      </View>
     </ScrollView>
   );
 }
@@ -108,22 +98,5 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlignVertical: "top",
     borderRadius: 8,
-  },
-
-  modalBackground: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)", // 반투명 배경
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalBox: {
-    width: 300,
-    padding: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-  },
-  modalText: {
-    fontSize: 18,
-    marginBottom: 10,
   },
 });
