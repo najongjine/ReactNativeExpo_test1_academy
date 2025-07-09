@@ -10,9 +10,13 @@ interface MyMemoType {
   content: string;
 }
 export default function MyScreen() {
+  // 메모 작성 textarea 에 타이핑한거 저장됨
   const [text, setText] = useState("");
+  // 메모작성하고 아래쪽에 뜨는 list 목록
   const [myMemo, setMyMemo] = useState<MyMemoType[]>([]);
+  // 모달창 보이고 안보이게 하는 스위치 변수
   const [modalVisible, setModalVisible] = useState(false);
+  // 수정버튼 눌렀을때 특정 메모 데이터를 여기다가 저장함
   const [selectedMemo, setSelectedMemo] = useState<MyMemoType | null>(null);
 
   const handleAddMemo = () => {
@@ -32,6 +36,12 @@ export default function MyScreen() {
     setModalVisible(true); // 모달 열기
   };
   const handleDeleteMemo = (id: number) => {};
+
+  const handleMemoChange = (text: string) => {
+    if (selectedMemo) {
+      setSelectedMemo({ ...selectedMemo, content: text });
+    }
+  };
   return (
     <ScrollView
       style={styles.container}
@@ -46,7 +56,7 @@ export default function MyScreen() {
         value={text}
         onChangeText={setText}
       />
-      <Button title="눌러보세요" onPress={handleAddMemo} />
+      <Button title="새로작성" onPress={handleAddMemo} />
 
       <View style={{ padding: 20 }}>
         {myMemo.length > 0 && (
@@ -70,12 +80,18 @@ export default function MyScreen() {
         )}
       </View>
 
+      {/* 부모 화면에 있는 화면 바인딩 변수들을 자식한테 넘겨주면 얘도 바인딩 기능이 작동함
+      selectedMemo 변수를 자식한테 주니깐, 모달창에 우리가 작성했던 메모가 뜨는거임
+      TextInput창에서 타이핑을 하면 데이터 바뀌게 하기 위해선 onChangeText 이부분에 set 함수
+      바인딩 변수를 바꿔주는 함수를 발동 시켜야 한다.
+      그래서 여기선 handleMemoChange 함수를 따로 만들고, 그 안에서 setSelectedMemo 함수를 호출함
+       */}
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <CustomModal
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
           memo={selectedMemo}
-          onChangeText={() => {}}
+          onChangeText={handleMemoChange}
           onSave={() => {}}
         />
       </View>
