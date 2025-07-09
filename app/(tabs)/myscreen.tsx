@@ -42,6 +42,16 @@ export default function MyScreen() {
       setSelectedMemo({ ...selectedMemo, content: text });
     }
   };
+  const handUpdateMemo_Save = () => {
+    let data = myMemo.find((e) => e?.id == selectedMemo?.id);
+    console.log("## data: ", data);
+    const updated = myMemo.map((item) =>
+      item.id === data?.id ? selectedMemo : item
+    );
+    console.log("## updated: ", updated);
+    //@ts-ignore
+    setMyMemo(updated!); // ✅ 상태 업데이트
+  };
   return (
     <ScrollView
       style={styles.container}
@@ -92,7 +102,7 @@ export default function MyScreen() {
           onClose={() => setModalVisible(false)}
           memo={selectedMemo}
           onChangeText={handleMemoChange}
-          onSave={() => {}}
+          onSave={handUpdateMemo_Save}
         />
       </View>
     </ScrollView>
