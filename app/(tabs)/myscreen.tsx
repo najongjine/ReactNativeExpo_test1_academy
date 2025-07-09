@@ -1,4 +1,4 @@
-import { Button, ScrollView, StyleSheet, TextInput } from "react-native";
+import { Button, Modal, ScrollView, StyleSheet, TextInput } from "react-native";
 
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
@@ -11,6 +11,7 @@ interface MyMemoType {
 export default function MyScreen() {
   const [text, setText] = useState("");
   const [myMemo, setMyMemo] = useState<MyMemoType[]>([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleAddMemo = () => {
     if (!text?.trim()) return;
@@ -23,8 +24,11 @@ export default function MyScreen() {
     setMyMemo([...myMemo, newMemo]);
     // text 데이터 초기화
     setText("");
-    console.log("## myMemo:", myMemo);
   };
+  const handleUpdateMemo = () => {
+    setModalVisible(true);
+  };
+  const handleDeleteMemo = () => {};
   return (
     <ScrollView
       style={styles.container}
@@ -51,7 +55,30 @@ export default function MyScreen() {
             ))}
           </View>
         )}
+        <Button title="수정" onPress={handleUpdateMemo} />
+        <Button title="삭제" onPress={handleDeleteMemo} />
       </View>
+
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)} // Android 뒤로가기 대응
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalBox}>
+            <TextInput
+              style={styles.textArea}
+              multiline={true}
+              numberOfLines={10}
+              placeholder="메모를 입력하세요"
+              value={text}
+              onChangeText={setText}
+            />
+            <Button title="닫기" onPress={() => setModalVisible(false)} />
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
@@ -81,5 +108,22 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlignVertical: "top",
     borderRadius: 8,
+  },
+
+  modalBackground: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)", // 반투명 배경
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalBox: {
+    width: 300,
+    padding: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 10,
   },
 });
